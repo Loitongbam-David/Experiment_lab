@@ -332,7 +332,7 @@ with tab_gen:
 # TAB 2: DOCUMENT ANALYZER (Updated)
 # ==========================================
 with tab_analyze:
-    st.info("Upload your existing experiment file. The AI will ignore metadata (Name/UID) and explain the CODE & LOGIC in depth.")
+    st.info("Upload your existing experiment file and get your experiment explained in depth")
     
     doc_file = st.file_uploader(get_txt("lbl_doc_upload"), type=['pdf', 'docx'], key="doc_up")
     
