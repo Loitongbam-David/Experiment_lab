@@ -265,7 +265,7 @@ with st.sidebar:
     st.header(TRANS["English"]["sidebar_config"])
     st.session_state.ui_lang = st.radio(get_txt("lbl_ui_lang"), ["English", "Hindi"], horizontal=True)
     st.divider()
-    programming_language = st.selectbox(get_txt("lbl_language"), ["Python", "C++", "Java", "SQL"])
+    programming_language = st.selectbox(get_txt("lbl_language"), ["Python", "C++","C", "Java", "SQL"])
 
 st.title(get_txt("title"))
 
@@ -335,19 +335,24 @@ with tab_analyze:
     st.info("Upload your existing experiment file and get your experiment explained in depth")
     
     doc_file = st.file_uploader(get_txt("lbl_doc_upload"), type=['pdf', 'docx'], key="doc_up")
-    
+
+    st.markdown("---- or -----")
+
+    manual_input=st.text_area("Enter code or experiment to be explained")
     if st.button(get_txt("btn_analyze"), type="primary", key="btn_an"):
-        if not doc_file:
+        if not doc_file and not manual_input.strip():
             st.warning(get_txt("warn_doc"))
         else:
             with st.spinner(get_txt("spinner_analyze")):
+              if doc_file:
                 if doc_file.type == "application/pdf":
                     full_text = extract_text_from_pdf(doc_file)
                 else:
-                    full_text = extract_text_from_docx(doc_file)
-                
+                    full_text = extract_text_from_docx(doc_file)               
                 # --- APPLY SMART FILTER ---
                 clean_text = filter_metadata(full_text)
+              else:
+                clean_text=manual_input
                 
                 st.session_state.code_text = clean_text[:3000] # Store for chat context
                 
