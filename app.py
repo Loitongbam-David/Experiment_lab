@@ -353,37 +353,37 @@ with tab_analyze:
                 clean_text = filter_metadata(full_text)
               else:
                 clean_text=manual_input
-                
-                st.session_state.code_text = clean_text[:3000] # Store for chat context
-                
-                lang_rule = "Write Explanation and Viva in HINDI (Hinglish)." if st.session_state.ui_lang == "Hindi" else "Write in English."
-                
-                prompt = f"""
-                Analyze the following technical content (Code/Concept):
-                {clean_text[:6000]} 
-                
-                {lang_rule}
-                
-                Provide 2 sections EXACTLY:
-                ### Explanation
-                ### Viva Questions
-                
-                Rules:
-                1. **Explanation:** Ignore the 'Aim' text itself. Focus strictly on explaining the **Concept Steps** and **Line-by-Line Code Logic**. 
-                   - Use bullet points (e.g., "- **Step 1:**...", "- **Lines 10-12:**...").
-                2. **Viva Questions:** Generate exactly 25 Questions (10 Basic, 10 Logic, 5 Advanced) WITH ANSWERS based on this code.
-                """
-                
-                raw = get_ai_response(prompt)
-                parsed = clean_and_parse(raw)
-                
-                if parsed:
-                    st.session_state.explanation_text = parsed.get("Explanation", "No explanation found.")
-                    st.session_state.viva_questions = parsed.get("Viva Questions", "No questions found.")
-                    st.session_state.chat_history = [] 
-                    st.success(get_txt("success"))
-                else:
-                    st.error(get_txt("err_empty"))
+              
+              st.session_state.code_text = clean_text[:3000] # Store for chat context
+              
+              lang_rule = "Write Explanation and Viva in HINDI (Hinglish)." if st.session_state.ui_lang == "Hindi" else "Write in English."
+              
+              prompt = f"""
+              Analyze the following technical content (Code/Concept):
+              {clean_text[:6000]} 
+              
+              {lang_rule}
+              
+              Provide 2 sections EXACTLY:
+              ### Explanation
+              ### Viva Questions
+              
+              Rules:
+              1. **Explanation:** Ignore the 'Aim' text itself. Focus strictly on explaining the **Concept Steps** and **Line-by-Line Code Logic**. 
+                 - Use bullet points (e.g., "- **Step 1:**...", "- **Lines 10-12:**...").
+              2. **Viva Questions:** Generate exactly 25 Questions (10 Basic, 10 Logic, 5 Advanced) WITH ANSWERS based on this code.
+              """
+              
+              raw = get_ai_response(prompt)
+              parsed = clean_and_parse(raw)
+              
+              if parsed:
+                  st.session_state.explanation_text = parsed.get("Explanation", "No explanation found.")
+                  st.session_state.viva_questions = parsed.get("Viva Questions", "No questions found.")
+                  st.session_state.chat_history = [] 
+                  st.success(get_txt("success"))
+              else:
+                  st.error(get_txt("err_empty"))
 
 # ==========================================
 # SHARED OUTPUT SECTION
